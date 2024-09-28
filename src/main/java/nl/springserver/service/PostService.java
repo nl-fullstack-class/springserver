@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -37,7 +38,7 @@ public class PostService {
                         .content(post.getContent())
                         .build()
                 )
-                .orElseThrow(() -> new IllegalArgumentException("Post not found: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Post not found: " + id));
     }
 
     // 다중 조회
@@ -58,7 +59,7 @@ public class PostService {
     public void modify(PostDto postDto) {
         // 조회
         Post post = postRepository.findById(postDto.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Post not found: " + postDto.getId()));
+                .orElseThrow(() -> new NoSuchElementException("Post not found: " + postDto.getId()));
         // 변경 내용 반영 (dirty checking)
         post.changeTitle(postDto.getTitle());
         post.changeContent(postDto.getContent());
