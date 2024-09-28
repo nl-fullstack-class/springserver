@@ -1,5 +1,6 @@
 package nl.springserver.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import nl.springserver.dto.PostDto;
 import nl.springserver.service.PostService;
@@ -19,10 +20,8 @@ public class PostController {
 
     // 등록 (Create)
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody PostDto postDto) {
-        Long id = postService.register(postDto);
-        URI location = URI.create("/api/v1/post/" + id);
-        return ResponseEntity.status(HttpStatus.CREATED).location(location).build(); // 201 Created
+    public ResponseEntity<Void> create(@Valid @RequestBody PostDto postDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).build(); // 201 Created
     }
 
     // 단건 조회 (Read)
@@ -39,7 +38,7 @@ public class PostController {
 
     // 수정 (Update)
     @PutMapping("/{id}")
-    public ResponseEntity<Void> update(@PathVariable("id") Long id, @RequestBody PostDto postDto) {
+    public ResponseEntity<Void> update(@PathVariable("id") Long id, @Valid @RequestBody PostDto postDto) {
         postDto.setId(id);
         postService.modify(postDto);
         return ResponseEntity.status(HttpStatus.OK).build(); // 200 OK
@@ -49,7 +48,7 @@ public class PostController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         postService.remove(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build(); // 204 No Conten
+        return ResponseEntity.status(HttpStatus.OK).build(); // 200 OK
     }
 
 

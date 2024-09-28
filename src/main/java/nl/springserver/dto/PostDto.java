@@ -1,5 +1,6 @@
 package nl.springserver.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Data
@@ -10,9 +11,9 @@ public class PostDto {
 
     private Long id; // null 가능
 
-    @NonNull
+    @NotBlank(message = "Title is mandatory")
     private String title;
 
-    @NonNull
+    @NotBlank(message = "Content is mandatory")
     private String content;
 }
